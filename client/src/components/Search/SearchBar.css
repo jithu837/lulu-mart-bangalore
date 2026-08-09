@@ -1,0 +1,20 @@
+.searchbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--cream-soft);
+  border: 1px solid rgba(122,31,43,0.15);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  color: var(--burgundy);
+}
+.searchbar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.92rem;
+  color: var(--brown);
+  font-family: var(--font-body);
+}
+.searchbar button { color: var(--brown-soft); display: flex; }

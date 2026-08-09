@@ -1,0 +1,246 @@
+/* ============================================================
+   THE PARLOUR HOUSE — Classic Ice Cream Parlour Design System
+   ============================================================ */
+
+:root {
+  /* Core palette — deep parlour burgundy, antique brass, cream & ink */
+  --cream: #FBF3E1;
+  --cream-soft: #FFFCF5;
+  --parchment: #F3E6C8;
+  --burgundy: #7A1F2B;
+  --burgundy-dark: #55141D;
+  --burgundy-tint: #EFD9CF;
+  --gold: #B8892B;
+  --gold-soft: #E4C67C;
+  --brown: #34241A;
+  --brown-soft: #7C6A57;
+  --forest: #45573F;
+  --forest-soft: #DCE4D2;
+
+  --font-display: 'Playfair Display', 'Georgia', serif;
+  --font-body: 'Work Sans', -apple-system, sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  --shadow-card: 0 6px 20px rgba(52, 36, 26, 0.10), 0 1px 3px rgba(52, 36, 26, 0.08);
+  --shadow-card-hover: 0 14px 32px rgba(52, 36, 26, 0.16), 0 2px 6px rgba(52, 36, 26, 0.10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--brown);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  color: var(--burgundy-dark);
+  margin: 0;
+  line-height: 1.15;
+}
+
+p { margin: 0; line-height: 1.6; }
+
+a { text-decoration: none; color: inherit; }
+
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+img { max-width: 100%; display: block; }
+
+ul { list-style: none; margin: 0; padding: 0; }
+
+.container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ---- Signature motif: candy-stripe awning divider ---- */
+.stripe-divider {
+  height: 10px;
+  width: 100%;
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--burgundy),
+    var(--burgundy) 18px,
+    var(--cream-soft) 18px,
+    var(--cream-soft) 36px
+  );
+  opacity: 0.9;
+}
+
+/* ---- Section headings ---- */
+.section-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.section-heading {
+  text-align: center;
+  margin-bottom: 42px;
+}
+
+.section-heading h2 {
+  font-size: clamp(1.7rem, 3.2vw, 2.5rem);
+  font-weight: 700;
+}
+
+.section-heading .brass-rule {
+  width: 64px;
+  height: 3px;
+  margin: 14px auto 0;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  position: relative;
+}
+.section-heading .brass-rule::before,
+.section-heading .brass-rule::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+.section-heading .brass-rule::before { left: -14px; }
+.section-heading .brass-rule::after { right: -14px; }
+
+.section-sub {
+  color: var(--brown-soft);
+  max-width: 560px;
+  margin: 14px auto 0;
+  font-size: 0.98rem;
+}
+
+/* ---- Buttons ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 28px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--burgundy);
+  color: var(--cream-soft);
+  box-shadow: 0 6px 16px rgba(122, 31, 43, 0.35);
+  border: 1px solid var(--burgundy);
+}
+.btn-primary:hover { background: var(--burgundy-dark); }
+
+.btn-outline {
+  background: transparent;
+  color: var(--cream-soft);
+  border: 1.5px solid var(--gold-soft);
+}
+.btn-outline:hover { background: rgba(228, 198, 124, 0.15); }
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--cream-soft);
+  border: 1px solid var(--gold);
+}
+.btn-gold:hover { background: #a3781f; }
+
+.btn-sm { padding: 9px 18px; font-size: 0.82rem; }
+
+/* ---- Badge ---- */
+.badge {
+  display: inline-block;
+  padding: 4px 11px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  background: var(--forest-soft);
+  color: var(--forest);
+}
+.badge-gold { background: rgba(184, 137, 43, 0.16); color: var(--gold); }
+.badge-burgundy { background: var(--burgundy-tint); color: var(--burgundy); }
+
+/* ---- Card base (scalloped vintage menu-board feel) ---- */
+.card {
+  background: var(--cream-soft);
+  border: 1px solid rgba(122, 31, 43, 0.10);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.card:hover {
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--gold);
+}
+
+/* ---- Back to top ---- */
+.back-to-top {
+  position: fixed;
+  bottom: 26px;
+  right: 26px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--burgundy);
+  color: var(--cream-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  z-index: 500;
+  font-size: 1.2rem;
+}
+
+/* ---- Responsive helpers ---- */
+.grid {
+  display: grid;
+  gap: 26px;
+}
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 720px) {
+  .grid-4, .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+}
+
+.page-shell {
+  padding: 120px 0 60px;
+}
+.page-header {
+  text-align: center;
+  padding: 40px 0 10px;
+}
+.page-header h1 {
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+}
+.page-header p {
+  color: var(--brown-soft);
+  margin-top: 10px;
+}
