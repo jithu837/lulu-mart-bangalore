@@ -8,13 +8,27 @@ export default function ProductCard({ product }) {
   const { toggleWishlist, isWishlisted } = useWishlist()
   const { addToCart } = useCart()
   const [quickView, setQuickView] = useState(false)
+  const [imgLoaded, setImgLoaded] = useState(false)
+  const [imgError, setImgError] = useState(false)
   const wished = isWishlisted(product._id)
 
   return (
     <>
       <div className="product-card card">
-        <div className="product-media">
-          <img src={product.image} alt={product.name} loading="lazy" />
+        <div className={`product-media ${!imgLoaded && !imgError ? 'is-loading' : ''}`}>
+          {!imgError ? (
+            <img
+              src={product.image}
+              alt={product.name}
+              loading="lazy"
+              decoding="async"
+              onLoad={() => setImgLoaded(true)}
+              onError={() => { setImgError(true); setImgLoaded(true); }}
+              className={`product-img ${imgLoaded ? 'loaded' : ''}`}
+            />
+          ) : (
+            <div className="img-fallback">🍦</div>
+          )}
           {product.serves && <span className="badge badge-gold product-serves">{product.serves}</span>}
           <button
             className={`product-fav ${wished ? 'active' : ''}`}
@@ -43,7 +57,11 @@ export default function ProductCard({ product }) {
       {quickView && (
         <div className="quickview-overlay" onClick={() => setQuickView(false)}>
           <div className="quickview-modal" onClick={(e) => e.stopPropagation()}>
-            <img src={product.image} alt={product.name} />
+            {!imgError ? (
+              <img src={product.image} alt={product.name} decoding="async" />
+            ) : (
+              <div className="img-fallback large">🍦</div>
+            )}
             <div className="quickview-body">
               <span className="product-category-tag">{product.category}{product.serves ? ` · ${product.serves}` : ''}</span>
               <h3>{product.name}</h3>
@@ -61,3 +79,4 @@ export default function ProductCard({ product }) {
     </>
   )
 }
+

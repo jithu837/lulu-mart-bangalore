@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import './pages/pages.css'
 import Navbar from './components/Navbar/Navbar.jsx'
 import Footer from './components/Footer/Footer.jsx'
@@ -17,11 +18,20 @@ import Bill from './pages/Bill.jsx'
 import NotFound from './pages/NotFound.jsx'
 import Orders from './pages/Orders.jsx'
 
+function ScrollToTopOnNavigate() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+  }, [pathname])
+  return null
+}
+
 export default function App() {
   const { toastMessage, toastVisible } = useCart()
 
   return (
     <>
+      <ScrollToTopOnNavigate />
       <Navbar />
       <main>
         <Routes>
@@ -44,3 +54,4 @@ export default function App() {
     </>
   )
 }
+
