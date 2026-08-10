@@ -1,5 +1,9 @@
 // Small fetch-based API client for the Lulu Mart Bangalore backend.
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+// In local dev, `VITE_API_URL` may point to http://localhost:5000/api.
+// In production, if the frontend is served from the same host as the backend,
+// using `/api` avoids mixed-content failures on HTTPS pages.
+const defaultApiUrl = import.meta.env.MODE === 'development' ? 'http://localhost:5000/api' : '/api'
+const API_URL = import.meta.env.VITE_API_URL || defaultApiUrl
 
 async function handle(res) {
   if (!res.ok) {

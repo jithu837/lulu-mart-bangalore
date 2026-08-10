@@ -119,6 +119,556 @@
   .cart-item-price { width: 100%; flex-direction: row; justify-content: space-between; align-items: center; }
 }
 
+/* ---- Hypermarket Header ---- */
+.hypermarket-header {
+  text-align: left;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.checkout-mode-switch {
+  display: flex;
+  gap: 6px;
+  background: var(--parchment);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid rgba(122, 31, 43, 0.10);
+}
+
+.mode-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--brown-soft);
+  background: transparent;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+}
+
+.mode-tab.active {
+  background: var(--burgundy);
+  color: var(--cream-soft);
+  box-shadow: 0 2px 8px rgba(122, 31, 43, 0.25);
+}
+
+.mode-tab:not(.active):hover {
+  background: var(--burgundy-tint);
+  color: var(--burgundy);
+}
+
+/* ---- Trolley Capacity Gauge (Cart page) ---- */
+.hypermarket-trolley-gauge {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.gauge-info-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.gauge-icon-large {
+  font-size: 2.2rem;
+  width: 52px;
+  height: 52px;
+  background: var(--parchment);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.gauge-info-left h4 {
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.gauge-info-left p {
+  font-size: 0.82rem;
+  color: var(--brown-soft);
+}
+
+.gauge-visual {
+  flex: 1;
+  min-width: 160px;
+}
+
+.gauge-percentage-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gold);
+  text-align: right;
+  margin-bottom: 4px;
+}
+
+.gauge-track {
+  height: 10px;
+  background: var(--parchment);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.gauge-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #D4AF37 0%, #2E7D32 100%);
+  border-radius: 5px;
+  transition: width 0.4s ease;
+}
+
+.gauge-fill.warning {
+  background: linear-gradient(90deg, #F57C00 0%, #C62828 100%);
+}
+
+.gauge-actions {
+  flex-shrink: 0;
+}
+
+/* ---- Aisle Sections ---- */
+.cart-items-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cart-summary-column {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: 100px;
+}
+
+.aisle-section {
+  padding: 0;
+  overflow: hidden;
+}
+
+.aisle-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, rgba(122, 31, 43, 0.06) 0%, rgba(212, 175, 55, 0.06) 100%);
+  border-bottom: 1px solid rgba(122, 31, 43, 0.08);
+}
+
+.aisle-header h3 {
+  font-size: 0.98rem;
+  margin-bottom: 1px;
+}
+
+.aisle-header p {
+  font-size: 0.76rem;
+  color: var(--brown-soft);
+}
+
+.aisle-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  background: var(--burgundy);
+  color: var(--cream-soft);
+  border-radius: 20px;
+  white-space: nowrap;
+}
+
+.aisle-items-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.hypermarket-item {
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid rgba(122, 31, 43, 0.06);
+  box-shadow: none;
+  padding: 14px 1.25rem;
+}
+
+.hypermarket-item:last-child {
+  border-bottom: none;
+}
+
+.hypermarket-item:hover {
+  background: rgba(243, 230, 200, 0.35);
+}
+
+.item-sku-tag {
+  display: inline-block;
+  font-family: monospace;
+  font-size: 0.68rem;
+  color: var(--gold);
+  background: rgba(212, 175, 55, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-bottom: 3px;
+  letter-spacing: 0.04em;
+}
+
+.item-unit-rate {
+  display: block;
+  font-size: 0.76rem;
+  color: var(--brown-soft);
+  margin-top: 2px;
+  margin-bottom: 6px;
+}
+
+/* ---- Eco-Bag Selection ---- */
+.eco-bag-section {
+  padding: 1.25rem;
+}
+
+.eco-bag-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 1rem;
+}
+
+.eco-icon {
+  font-size: 1.6rem;
+  color: var(--forest);
+}
+
+.eco-bag-header h3 {
+  font-size: 1rem;
+  margin-bottom: 2px;
+}
+
+.eco-bag-header p {
+  font-size: 0.82rem;
+  color: var(--brown-soft);
+}
+
+.bag-options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bag-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 1.5px solid rgba(122, 31, 43, 0.10);
+  border-radius: 10px;
+  background: var(--cream-soft);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.bag-card:hover {
+  border-color: var(--gold);
+  background: rgba(228, 198, 124, 0.08);
+}
+
+.bag-card.selected {
+  border-color: var(--forest);
+  background: rgba(69, 87, 63, 0.06);
+  box-shadow: 0 2px 8px rgba(69, 87, 63, 0.12);
+}
+
+.bag-card input[type="radio"] {
+  accent-color: var(--forest);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.bag-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.bag-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--burgundy-dark);
+}
+
+.bag-desc {
+  font-size: 0.75rem;
+  color: var(--brown-soft);
+  margin-top: 1px;
+}
+
+.bag-price-tag {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--burgundy);
+  white-space: nowrap;
+}
+
+.bag-price-tag.free {
+  color: var(--forest);
+}
+
+/* ---- Lulu Club Loyalty Card ---- */
+.lulu-club-card {
+  padding: 1.25rem;
+  background: linear-gradient(135deg, #FFFCF5 0%, #FFF7E6 100%);
+  border: 1.5px solid rgba(212, 175, 55, 0.25);
+}
+
+.club-badge-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 0.85rem;
+}
+
+.club-logo {
+  font-size: 1.6rem;
+  width: 42px;
+  height: 42px;
+  background: linear-gradient(135deg, #D4AF37 0%, #B8892B 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+}
+
+.club-badge-header h4 {
+  font-size: 0.95rem;
+  margin-bottom: 1px;
+}
+
+.club-badge-header p {
+  font-size: 0.75rem;
+  color: var(--brown-soft);
+}
+
+.club-points-box {
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px dashed rgba(212, 175, 55, 0.35);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  text-align: center;
+}
+
+.points-amount {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.02em;
+}
+
+.points-note {
+  font-size: 0.76rem;
+  color: var(--brown-soft);
+  margin-top: 4px;
+}
+
+/* ---- Cart Coupon Box (Page) ---- */
+.cart-coupon-box {
+  padding: 1.25rem;
+}
+
+.cart-coupon-box h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  margin-bottom: 0.85rem;
+}
+
+.coupon-form-page {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.coupon-field-wrap {
+  display: flex;
+  gap: 8px;
+}
+
+.coupon-field-wrap input {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1px solid rgba(122, 31, 43, 0.15);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+  background: #FFFFFF;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.coupon-field-wrap input:focus {
+  border-color: var(--gold);
+}
+
+.coupon-err {
+  font-size: 0.78rem;
+  color: #C62828;
+  margin: 0;
+}
+
+.available-vouchers {
+  margin-top: 4px;
+}
+
+.available-vouchers small {
+  font-size: 0.74rem;
+  color: var(--brown-soft);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.voucher-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.voucher-chips button {
+  padding: 6px 10px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  border: 1.5px dashed rgba(212, 175, 55, 0.4);
+  border-radius: 6px;
+  background: rgba(212, 175, 55, 0.06);
+  color: var(--gold);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.voucher-chips button:hover {
+  background: rgba(212, 175, 55, 0.15);
+  border-style: solid;
+  border-color: var(--gold);
+}
+
+.active-coupon-pill {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #E8F5E9;
+  border: 1px solid #C8E6C9;
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.active-coupon-pill strong {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #2E7D32;
+  font-size: 0.88rem;
+}
+
+.active-coupon-pill small {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--brown-soft);
+  margin-top: 2px;
+}
+
+.remove-coupon-link {
+  font-size: 0.78rem;
+  color: #C62828;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  background: none;
+  border: none;
+}
+
+/* ---- Hypermarket Bill Summary ---- */
+.hypermarket-summary {
+  padding: 1.25rem;
+}
+
+.hypermarket-summary h3 {
+  margin-bottom: 1rem;
+  font-size: 1.05rem;
+}
+
+.summary-row.discount {
+  color: #2E7D32;
+  font-weight: 600;
+}
+
+.grand-price {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--burgundy);
+}
+
+.summary-mode-notice {
+  font-size: 0.78rem;
+  color: var(--brown-soft);
+  text-align: center;
+  padding: 8px 0;
+  margin-top: 4px;
+  border-top: 1px dashed rgba(122, 31, 43, 0.12);
+}
+
+.full-width {
+  width: 100%;
+}
+
+.btn-clear-cart {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: var(--brown-soft);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 6px;
+}
+
+.btn-clear-cart:hover {
+  color: #C62828;
+}
+
+@media (max-width: 900px) {
+  .hypermarket-header {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+  .cart-summary-column {
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .hypermarket-trolley-gauge {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .checkout-mode-switch {
+    flex-direction: column;
+  }
+}
+
 /* ---- Bill / Pay Bill page ---- */
 .checkout-layout {
   display: grid;

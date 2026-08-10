@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { NavLink, Link, useNavigate } from 'react-router-dom'
-import { FiSearch, FiHeart, FiShoppingCart, FiMenu, FiX } from 'react-icons/fi'
+import { FiSearch, FiHeart, FiShoppingCart, FiMenu, FiX, FiCamera } from 'react-icons/fi'
 import { useWishlist } from '../../context/WishlistContext.jsx'
 import { useCart } from '../../context/CartContext.jsx'
 import './Navbar.css'
@@ -21,7 +21,7 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [query, setQuery] = useState('')
   const { items: wishItems } = useWishlist()
-  const { count } = useCart()
+  const { count, openTrolley, openScanner } = useCart()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function Navbar() {
           ))}
           <div className="navbar-mobile-actions">
             <Link to="/wishlist" onClick={() => setMenuOpen(false)}>Wishlist ({wishItems.length})</Link>
-            <Link to="/cart" onClick={() => setMenuOpen(false)}>Cart ({count})</Link>
+            <button onClick={() => { setMenuOpen(false); openTrolley(); }}>Trolley ({count})</button>
           </div>
         </nav>
 
@@ -68,14 +68,22 @@ export default function Navbar() {
           <button className="icon-btn" aria-label="Search" onClick={() => setSearchOpen((s) => !s)}>
             <FiSearch />
           </button>
+          <button
+            className="icon-btn scan-header-btn"
+            aria-label="Scan & Go Barcode"
+            title="Scan Product Barcode"
+            onClick={openScanner}
+          >
+            <FiCamera />
+          </button>
           <Link className="icon-btn" aria-label="Wishlist" to="/wishlist">
             <FiHeart />
             {wishItems.length > 0 && <span className="icon-badge">{wishItems.length}</span>}
           </Link>
-          <Link className="icon-btn" aria-label="Cart" to="/cart">
+          <button className="icon-btn trolley-nav-trigger" aria-label="Trolley Cart" onClick={openTrolley} title="Open Lulu Trolley">
             <FiShoppingCart />
             {count > 0 && <span className="icon-badge">{count}</span>}
-          </Link>
+          </button>
           <button className="icon-btn menu-toggle" aria-label="Menu" onClick={() => setMenuOpen((m) => !m)}>
             {menuOpen ? <FiX /> : <FiMenu />}
           </button>

@@ -115,3 +115,66 @@
   .quickview-modal { grid-template-columns: 1fr; }
   .quickview-modal img { height: 200px; }
 }
+
+/* In-trolley product card active border */
+.product-card.in-trolley-card {
+  border-color: #D4AF37;
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.15);
+}
+
+.badge-trolley-active {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: #7A1F2B;
+  color: #FFFDF9;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* Inline Quantity Controls on ProductCard */
+.product-card-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #FAF5EB;
+  border: 1px solid #D4AF37;
+  border-radius: 8px;
+  padding: 3px 6px;
+}
+
+.product-card-qty.large {
+  padding: 6px 12px;
+  border-radius: 10px;
+}
+
+.card-qty-btn {
+  background: #7A1F2B;
+  color: #FFFDF9;
+  border: none;
+  border-radius: 4px;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.card-qty-btn:hover {
+  background: #52121B;
+  transform: scale(1.05);
+}
+
+.card-qty-num {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #7A1F2B;
+  min-width: 18px;
+  text-align: center;
+}
+

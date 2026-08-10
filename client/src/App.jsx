@@ -5,6 +5,8 @@ import Navbar from './components/Navbar/Navbar.jsx'
 import Footer from './components/Footer/Footer.jsx'
 import BackToTop from './components/BackToTop/BackToTop.jsx'
 import Toast from './components/Toast/Toast.jsx'
+import TrolleyDrawer from './components/TrolleyDrawer/TrolleyDrawer.jsx'
+import BarcodeScannerModal from './components/BarcodeScanner/BarcodeScannerModal.jsx'
 import { useCart } from './context/CartContext.jsx'
 import Home from './pages/Home.jsx'
 import IceCreams from './pages/IceCreams.jsx'
@@ -48,6 +50,8 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
+      <TrolleyDrawer />
+      <BarcodeScannerModal />
       <Footer />
       <BackToTop />
       <Toast message={toastMessage} visible={toastVisible} />

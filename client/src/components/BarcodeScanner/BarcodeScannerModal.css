@@ -1,0 +1,346 @@
+/* Barcode Scanner Modal */
+.scanner-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 8, 10, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 1300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: fadeInScanner 0.25s ease-out forwards;
+}
+
+@keyframes fadeInScanner {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.scanner-modal {
+  width: 100%;
+  max-width: 480px;
+  background: #1C1316;
+  border: 1px solid #3A262B;
+  border-radius: 20px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  color: #FFFDF9;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.scanner-header {
+  padding: 1.2rem 1.5rem;
+  background: #281B20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #3A262B;
+}
+
+.scanner-header-title {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.scanner-icon {
+  font-size: 1.5rem;
+  color: #D4AF37;
+}
+
+.scanner-header-title h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #FFFDF9;
+}
+
+.scanner-header-title p {
+  margin: 2px 0 0 0;
+  font-size: 0.76rem;
+  color: #B5A0A5;
+}
+
+.scanner-close {
+  background: #3A262B;
+  border: none;
+  color: #FFFDF9;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.scanner-close:hover {
+  background: #52353D;
+}
+
+/* Viewfinder Box */
+.viewfinder-box {
+  margin: 1.25rem;
+  height: 180px;
+  background: #110B0D;
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #332025;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.viewfinder-box.beep-flash {
+  background: #1E3821;
+  border-color: #4CAF50;
+}
+
+/* Laser animation */
+.laser-line {
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  height: 2px;
+  background: #FF3B30;
+  box-shadow: 0 0 12px 3px rgba(255, 59, 48, 0.8);
+  animation: laserScan 2s ease-in-out infinite alternate;
+}
+
+@keyframes laserScan {
+  0% { top: 15%; }
+  100% { top: 85%; }
+}
+
+/* Corners */
+.viewfinder-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: #D4AF37;
+  border-style: solid;
+}
+
+.top-left { top: 12px; left: 12px; border-width: 3px 0 0 3px; border-top-left-radius: 6px; }
+.top-right { top: 12px; right: 12px; border-width: 3px 3px 0 0; border-top-right-radius: 6px; }
+.bottom-left { bottom: 12px; left: 12px; border-width: 0 0 3px 3px; border-bottom-left-radius: 6px; }
+.bottom-right { bottom: 12px; right: 12px; border-width: 0 3px 3px 0; border-bottom-right-radius: 6px; }
+
+/* Instructions */
+.viewfinder-instructions {
+  text-align: center;
+  z-index: 2;
+}
+
+.scanner-aim-icon {
+  font-size: 2.2rem;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.viewfinder-instructions p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #FFFDF9;
+}
+
+.viewfinder-instructions small {
+  font-size: 0.76rem;
+  color: #B5A0A5;
+}
+
+/* Beep Flash indicator */
+.beep-indicator {
+  text-align: center;
+  z-index: 3;
+  color: #C8E6C9;
+}
+
+.beep-indicator span {
+  font-size: 1.4rem;
+  font-weight: 800;
+  display: block;
+}
+
+.beep-indicator small {
+  font-size: 0.82rem;
+}
+
+/* Scanned Result Card */
+.scanned-result-card {
+  position: absolute;
+  inset: 10px;
+  background: rgba(30, 20, 24, 0.92);
+  backdrop-filter: blur(4px);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 1rem;
+  z-index: 4;
+}
+
+.scanned-success-icon {
+  font-size: 1.8rem;
+  color: #4CAF50;
+  flex-shrink: 0;
+}
+
+.scanned-thumb {
+  width: 46px;
+  height: 46px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: #FFF;
+}
+
+.scanned-details {
+  flex: 1;
+  min-width: 0;
+}
+
+.scanned-category {
+  font-size: 0.68rem;
+  color: #D4AF37;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.scanned-title {
+  margin: 1px 0;
+  font-size: 0.88rem;
+  color: #FFFDF9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.scanned-price {
+  font-size: 0.95rem;
+  color: #81C784;
+}
+
+/* Form input */
+.manual-barcode-form {
+  padding: 0 1.25rem 1rem;
+}
+
+.barcode-input-group {
+  display: flex;
+  align-items: center;
+  background: #281B20;
+  border: 1px solid #452D34;
+  border-radius: 10px;
+  padding: 3px 4px 3px 12px;
+  gap: 0.5rem;
+}
+
+.search-icon {
+  color: #8C757B;
+}
+
+.barcode-input-group input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #FFFDF9;
+  font-size: 0.85rem;
+}
+
+/* Sample Barcodes Shelf */
+.sample-barcodes-shelf {
+  padding: 0 1.25rem 1.25rem;
+}
+
+.sample-barcodes-shelf > span {
+  font-size: 0.76rem;
+  color: #B5A0A5;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.sample-chips {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.sample-chip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #24181D;
+  border: 1px solid #3A262B;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  color: #FFFDF9;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+}
+
+.sample-chip:hover {
+  background: #36222A;
+  border-color: #D4AF37;
+  transform: translateX(2px);
+}
+
+.chip-code {
+  font-family: monospace;
+  font-size: 0.75rem;
+  color: #D4AF37;
+  letter-spacing: 0.05em;
+}
+
+.chip-name {
+  font-size: 0.8rem;
+  color: #E6D8DC;
+  flex: 1;
+  margin: 0 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chip-price {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #81C784;
+}
+
+/* Footer */
+.scanner-footer {
+  padding: 1rem 1.25rem;
+  background: #24181D;
+  border-top: 1px solid #3A262B;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.scanned-total-badge {
+  font-size: 0.8rem;
+  color: #D6C2C7;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.scanned-total-badge strong {
+  color: #D4AF37;
+}
+
+.scanner-footer-btns {
+  display: flex;
+  gap: 0.5rem;
+}

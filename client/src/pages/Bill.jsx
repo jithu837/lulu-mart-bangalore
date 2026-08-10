@@ -21,32 +21,51 @@ function buildUpiLink(amount) {
 }
 
 export default function Bill() {
-  const { items, subtotal, grandTotal, clearCart } = useCart()
+  const { items, subtotal, discountAmount, bagPrice, grandTotal, earnedPoints, appliedCoupon, clearCart } = useCart()
   const [method, setMethod] = useState(null) // null | 'upi' | 'cash'
   const [paid, setPaid] = useState(false)
   const [paymentMethod, setPaymentMethod] = useState(null)
   const [receiptData, setReceiptData] = useState(null)
   const [orderId, setOrderId] = useState(null)
   const [orderStatus, setOrderStatus] = useState('idle') // idle | creating | ready | error
+  const [orderError, setOrderError] = useState('')
   const [payError, setPayError] = useState('')
   const [rzpLoading, setRzpLoading] = useState(false)
   const didCreateOrder = useRef(false)
 
-  // Create a pending order in MongoDB as soon as the bill screen loads,
-  // so the order (and its items/total) is recorded even before payment.
+  const createPendingOrder = async () => {
+    if (items.length === 0) return
+
+    setOrderStatus('creating')
+    setOrderError('')
+
+    try {
+      const order = await api.createOrder({
+        items: items.map((i) => ({ product: i._id, name: i.name, price: i.price, qty: i.qty, image: i.image })),
+        subtotal,
+        discountAmount,
+        bagPrice,
+        grandTotal,
+        earnedPoints,
+        couponCode: appliedCoupon?.code || null,
+      })
+
+      setOrderId(order._id)
+      setOrderStatus('ready')
+      setOrderError('')
+    } catch (err) {
+      setOrderStatus('error')
+      setOrderError(err.message || 'Could not reach the server to record this order.')
+    }
+  }
+
+  // Create a pending order in MongoDB as soon as the bill screen loads
   useEffect(() => {
     if (didCreateOrder.current) return
     if (items.length === 0) return
 
     didCreateOrder.current = true
-    setOrderStatus('creating')
-    api.createOrder({
-      items: items.map((i) => ({ product: i._id, name: i.name, price: i.price, qty: i.qty, image: i.image })),
-      subtotal,
-      grandTotal,
-    })
-      .then((order) => { setOrderId(order._id); setOrderStatus('ready') })
-      .catch(() => setOrderStatus('error'))
+    createPendingOrder()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -55,7 +74,11 @@ export default function Bill() {
     const receipt = {
       items,
       subtotal,
+      discountAmount,
+      bagPrice,
       grandTotal,
+      earnedPoints,
+      couponCode: appliedCoupon?.code,
       paymentMethod,
       orderId,
     }
@@ -102,7 +125,11 @@ export default function Bill() {
             setReceiptData({
               items,
               subtotal,
+              discountAmount,
+              bagPrice,
               grandTotal,
+              earnedPoints,
+              couponCode: appliedCoupon?.code,
               paymentMethod: 'razorpay',
               orderId: updatedOrder._id,
             })
@@ -140,7 +167,10 @@ export default function Bill() {
     const receiptSource = receiptData || {
       items,
       subtotal,
+      discountAmount,
+      bagPrice,
       grandTotal,
+      earnedPoints,
       paymentMethod,
       orderId,
     }
@@ -161,11 +191,11 @@ export default function Bill() {
             <div className="receipt-ticket">
               <div className="receipt-header">
                 <h1>Receipt</h1>
-                <p className="receipt-company">Lulu Mart Bangalore</p>
+                <p className="receipt-company">Lulu Mart Hypermarket</p>
               </div>
 
               <div className="receipt-details">
-                <span>Counter 01</span>
+                <span>Counter 01 · Self Checkout</span>
                 <span>Cashier: Jithendra</span>
               </div>
 
@@ -206,24 +236,33 @@ export default function Bill() {
               )}
 
               <div className="receipt-divider dashed" />
-              <div className="receipt-row amount-row">
-                <span className="amount-label">AMOUNT</span>
-                <span className="amount-value">₹{receiptSource.grandTotal}</span>
-              </div>
               <div className="receipt-row smaller-row">
                 <span>Sub-total</span>
                 <span>₹{receiptSource.subtotal}</span>
               </div>
-              <div className="receipt-row smaller-row">
-                <span>Sales Tax</span>
-                <span>₹{receiptSource.gst || 0}</span>
-              </div>
-              <div className="receipt-row smaller-row">
-                <span>Balance</span>
-                <span>₹{receiptSource.grandTotal}</span>
+              {receiptSource.discountAmount > 0 && (
+                <div className="receipt-row smaller-row" style={{ color: 'var(--burgundy)', fontWeight: 600 }}>
+                  <span>Discount ({receiptSource.couponCode || 'Promo'})</span>
+                  <span>-₹{receiptSource.discountAmount}</span>
+                </div>
+              )}
+              {receiptSource.bagPrice > 0 && (
+                <div className="receipt-row smaller-row">
+                  <span>Eco Shopping Bag</span>
+                  <span>+₹{receiptSource.bagPrice}</span>
+                </div>
+              )}
+              <div className="receipt-row amount-row">
+                <span className="amount-label">TOTAL PAID</span>
+                <span className="amount-value">₹{receiptSource.grandTotal}</span>
               </div>
               <div className="receipt-divider dashed" />
-              <p className="receipt-note">Thank you for shopping with us.</p>
+              {receiptSource.earnedPoints > 0 && (
+                <div className="receipt-row smaller-row" style={{ color: 'var(--forest)', fontWeight: 600, justifyContent: 'center' }}>
+                  <span>✨ Lulu Club Points Earned: +{receiptSource.earnedPoints} PTS</span>
+                </div>
+              )}
+              <p className="receipt-note">Thank you for shopping at Lulu Hypermarket!</p>
               <div className="receipt-actions">
                 <button className="btn btn-primary" type="button" onClick={printReceipt}>
                   Print Receipt
@@ -264,7 +303,10 @@ export default function Bill() {
 
         {orderStatus === 'error' && (
           <div className="empty-state card" style={{ marginBottom: 20 }}>
-            <p>Couldn't reach the server to record this order. Make sure the API is running — you can still confirm payment below, but it won't be saved to the database.</p>
+            <p>{orderError || 'Couldn\'t reach the server to record this order. Make sure the API is running — you can still confirm payment below, but it won\'t be saved to the database.'}</p>
+            <button className="btn btn-secondary" type="button" onClick={createPendingOrder}>
+              Retry recording order
+            </button>
           </div>
         )}
 
@@ -371,7 +413,22 @@ export default function Bill() {
               </div>
             ))}
             <div className="summary-row"><span>Subtotal</span><span>₹{subtotal}</span></div>
+            {discountAmount > 0 && (
+              <div className="summary-row discount">
+                <span>Coupon Discount ({appliedCoupon?.code})</span>
+                <span>-₹{discountAmount}</span>
+              </div>
+            )}
+            {bagPrice > 0 && (
+              <div className="summary-row"><span>Eco Shopping Bag</span><span>+₹{bagPrice}</span></div>
+            )}
             <div className="summary-row total"><span>Total Payable</span><span>₹{grandTotal}</span></div>
+            {earnedPoints > 0 && (
+              <div className="summary-row" style={{ color: 'var(--forest)', fontWeight: 600, fontSize: '0.82rem' }}>
+                <span>✨ Lulu Club Points</span>
+                <span>+{earnedPoints} PTS</span>
+              </div>
+            )}
             <p className="estimate-note">*Prices are typical mart estimates, not confirmed shelf prices.</p>
           </div>
         </div>

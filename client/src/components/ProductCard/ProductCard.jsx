@@ -1,4 +1,4 @@
-import { FiHeart, FiEye, FiShoppingCart } from 'react-icons/fi'
+import { FiHeart, FiEye, FiShoppingCart, FiPlus, FiMinus } from 'react-icons/fi'
 import { useState } from 'react'
 import { useWishlist } from '../../context/WishlistContext.jsx'
 import { useCart } from '../../context/CartContext.jsx'
@@ -6,15 +6,17 @@ import './ProductCard.css'
 
 export default function ProductCard({ product }) {
   const { toggleWishlist, isWishlisted } = useWishlist()
-  const { addToCart } = useCart()
+  const { items, addToCart, updateQty } = useCart()
   const [quickView, setQuickView] = useState(false)
   const [imgLoaded, setImgLoaded] = useState(false)
   const [imgError, setImgError] = useState(false)
+
   const wished = isWishlisted(product._id)
+  const cartItem = items.find((i) => i._id === product._id)
 
   return (
     <>
-      <div className="product-card card">
+      <div className={`product-card card ${cartItem ? 'in-trolley-card' : ''}`}>
         <div className={`product-media ${!imgLoaded && !imgError ? 'is-loading' : ''}`}>
           {!imgError ? (
             <img
@@ -30,6 +32,7 @@ export default function ProductCard({ product }) {
             <div className="img-fallback">🍦</div>
           )}
           {product.serves && <span className="badge badge-gold product-serves">{product.serves}</span>}
+          {cartItem && <span className="badge badge-trolley-active">In Trolley 🛒 ({cartItem.qty})</span>}
           <button
             className={`product-fav ${wished ? 'active' : ''}`}
             aria-label="Toggle wishlist"
@@ -38,7 +41,7 @@ export default function ProductCard({ product }) {
             <FiHeart />
           </button>
           <button className="product-quick" onClick={() => setQuickView(true)}>
-            <FiEye /> View Details
+            <FiEye /> Details
           </button>
         </div>
 
@@ -47,9 +50,30 @@ export default function ProductCard({ product }) {
           <p className="product-desc">{product.description}</p>
           <div className="product-footer">
             <span className="product-price">₹{product.price}<sup>*</sup></span>
-            <button className="btn btn-primary btn-sm" onClick={() => addToCart(product)}>
-              <FiShoppingCart /> Add
-            </button>
+
+            {cartItem ? (
+              <div className="product-card-qty">
+                <button
+                  className="card-qty-btn"
+                  onClick={() => updateQty(product._id, cartItem.qty - 1)}
+                  aria-label="Decrease quantity"
+                >
+                  <FiMinus size={12} />
+                </button>
+                <span className="card-qty-num">{cartItem.qty}</span>
+                <button
+                  className="card-qty-btn"
+                  onClick={() => updateQty(product._id, cartItem.qty + 1)}
+                  aria-label="Increase quantity"
+                >
+                  <FiPlus size={12} />
+                </button>
+              </div>
+            ) : (
+              <button className="btn btn-primary btn-sm add-trolley-btn" onClick={() => addToCart(product)}>
+                <FiShoppingCart /> Add 🛒
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -68,9 +92,27 @@ export default function ProductCard({ product }) {
               <p className="quickview-desc">{product.description}</p>
               <div className="product-footer">
                 <span className="product-price">₹{product.price}<sup>*</sup></span>
-                <button className="btn btn-primary" onClick={() => { addToCart(product); setQuickView(false) }}>
-                  <FiShoppingCart /> Add to Cart
-                </button>
+                {cartItem ? (
+                  <div className="product-card-qty large">
+                    <button
+                      className="card-qty-btn"
+                      onClick={() => updateQty(product._id, cartItem.qty - 1)}
+                    >
+                      <FiMinus />
+                    </button>
+                    <span className="card-qty-num">{cartItem.qty} in Trolley</span>
+                    <button
+                      className="card-qty-btn"
+                      onClick={() => updateQty(product._id, cartItem.qty + 1)}
+                    >
+                      <FiPlus />
+                    </button>
+                  </div>
+                ) : (
+                  <button className="btn btn-primary" onClick={() => { addToCart(product); setQuickView(false); }}>
+                    <FiShoppingCart /> Add to Trolley 🛒
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -79,4 +121,5 @@ export default function ProductCard({ product }) {
     </>
   )
 }
+
 
