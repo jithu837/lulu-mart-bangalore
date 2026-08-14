@@ -28,6 +28,16 @@ app.use(cors({
 app.use(express.json())
 
 app.get('/api/health', (req, res) => res.json({ ok: true, timestamp: new Date().toISOString() }))
+// Temporary debug route to inspect the running Razorpay key ID on the server.
+// This returns only the public `key_id` (NOT the secret). Remove after verification.
+app.get('/api/debug/razorpay-key', (req, res) => {
+  try {
+    const keyId = process.env.RAZORPAY_KEY_ID || null
+    res.json({ keyId })
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to read env var' })
+  }
+})
 app.use('/api/products', productRoutes)
 app.use('/api/orders', orderRoutes)
 
